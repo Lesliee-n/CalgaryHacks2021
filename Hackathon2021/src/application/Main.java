@@ -29,7 +29,7 @@ public class Main extends Application {
 		}
 	}
 	
-	//change scene
+	//change scen
 	public static void changeScene(String ID) {
 		switch(ID) {
 		case MAIN:

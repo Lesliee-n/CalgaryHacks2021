@@ -30,8 +30,8 @@ public class Main extends Application {
 			sb = new Schedule();
 			//testEvent();
 			cs = new CreateScreen(sb);		
-			scene = new MainScreen(sb);
 			ms = new MainScreen(sb);
+			scene = ms;
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -51,14 +51,13 @@ public class Main extends Application {
 
 	}
 	
-	public void buildTimers() {
+	public static void buildTimers() {
 		for(Event e : sb.getEvents()){
 			setTimer(e);
 		}
 		
 	}
-	public void setTimer(Event e) {
-		Date active = e.getTime();
+	public static void setTimer(Event e) {
 		Timer timer = new Timer(true); 
 		timer.schedule(new TimerTask() {
 			
@@ -71,7 +70,7 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
 			}
-		}, active.getTime(), 7*1000*60*60*24);
+		}, e.getTime(), 7*1000*60*60*24);
 	}
 	
 	

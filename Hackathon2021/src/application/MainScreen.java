@@ -1,6 +1,8 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +48,8 @@ public class MainScreen extends Scene {
 	private HashMap<String, Integer> weekdayList;
 	private HashMap<String, ArrayList<StackPane>> classes;
 	private BorderPane pane;
+	private boolean isLaunching = false;
+	Event launchedEvent;
 	GridPane week;
 	private int minTime = 8 * 60 * 60;
 	StackPane slotsFill;
@@ -177,11 +181,34 @@ public class MainScreen extends Scene {
 				java.util.Date date = new java.util.Date();
 				String t = date.toString();
 				timeL.setText(t);
+				checKEventTimes(date);
+				
+				
 			}
 		}, 0, 1000);
 		return timeL;
 	}
-
+	
+	private void checKEventTimes(Date d) {
+		for( Event e : Main.sb.getEvents()) {
+			int hour = d.getHours();
+			int min = d.getMinutes();
+			Date d2 = e.getTime();
+			if(!isLaunching && (d2.getHours() == hour && d2.getMinutes() == min )) {
+				isLaunching = true;
+				launchedEvent = e; 
+				try {
+					e.launchMeeting();
+				} catch (IOException | URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			}else if(e == launchedEvent && (d2.getHours() != hour || d2.getMinutes() != min)) {
+				isLaunching = false;
+			}
+		}
+	}
 	private void initWeekday(HashMap<String, Integer> hm) {
 		hm.put("SUNDAY", 0);
 		hm.put("MONDAY", 1);

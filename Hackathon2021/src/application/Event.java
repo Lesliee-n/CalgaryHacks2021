@@ -5,6 +5,9 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.awt.datatransfer.StringSelection;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 
 //Event object
 public class Event {
@@ -103,14 +106,18 @@ public boolean eventActive() {
 
 
 
-
+//functions
 public void launchMeeting() throws IOException, URISyntaxException {
+    StringSelection stringSelection = new StringSelection(getPassword());
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents(stringSelection, null);  
+    
 	Desktop d=Desktop.getDesktop();
-//	system.out.print("launch meeting");
 	d.browse(new URI(getUrl()));
 }
 
 public void toggleEventActive() {
+	this.eventActive = false;
 	system.out.print("toggle event active");
 }
 

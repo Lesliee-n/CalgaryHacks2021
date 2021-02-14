@@ -1,6 +1,10 @@
 package application;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 //Event object
 public class Event {
@@ -100,10 +104,14 @@ public boolean eventActive() {
 
 
 
-public void launchMeeting() {
-	system.out.print("launch meeting");
+public void launchMeeting() throws IOException, URISyntaxException {
+	Desktop d=Desktop.getDesktop();
+//	system.out.print("launch meeting");
+	d.browse(new URI(getUrl()));
 }
 
 public void toggleEventActive() {
 	system.out.print("toggle event active");
 }
+
+

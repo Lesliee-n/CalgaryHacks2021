@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -99,9 +100,14 @@ public class MainScreen extends Scene {
 
 	private void setSlots(Event e) {
 		StackPane p = new StackPane();
-		int r = (int) (Math.random()*150);
-		int g = (int) (Math.random()*150);
-		int b = (int) (Math.random()*150);
+		int max = 200;
+		int min = 150;
+		Random rn = new Random();
+		int r = rn.nextInt((max - min) + 1) + min;
+		rn = new Random();
+		int g = rn.nextInt((max - min) + 1) + min;
+		rn = new Random();
+		int b = rn.nextInt((max - min) + 1) + min;
 		for (String day : e.getDay()) {
 			day = day.toUpperCase();
 			Date d = e.getTime();

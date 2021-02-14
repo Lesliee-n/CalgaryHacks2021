@@ -15,6 +15,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			scene = new MainScreen(sb);
+			changeScene(ADD_EVENT);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -30,6 +31,7 @@ public class Main extends Application {
 				scene = new MainScreen(sb);
 				break;
 		case ADD_EVENT:
+				scene = new CreateScreen(sb);
 				break;
 		}
 	}

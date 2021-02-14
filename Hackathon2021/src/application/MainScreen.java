@@ -66,10 +66,10 @@ public class MainScreen extends Scene {
 
 	}
 
-	public void update(Date dd) {
+	public void update() {
 		pane.getChildren().remove(slotsFill);
 		for (Event e : sb.getEvents()) {
-			slotsFill = setSlots(pane, week, e, dd);
+			slotsFill = setSlots(pane, week, e);
 		}
 		pane.getChildren().add(slotsFill);
 
@@ -141,11 +141,11 @@ public class MainScreen extends Scene {
 
 	}
 
-	private StackPane setSlots(Pane parent, GridPane gp, Event e, Date dd) {
+	private StackPane setSlots(Pane parent, GridPane gp, Event e) {
 		StackPane p = new StackPane();
 		for (String day : e.getDay()) {
 			day = day.toUpperCase();
-			StackPane s = setSlot(parent, gp, e.getName(), day,dd.getHours()*60*60 + dd.getMinutes()*60, (long) e.getDuration());
+			StackPane s = setSlot(parent, gp, e.getName(), day,0, (long) e.getDuration());
 			p.getChildren().add(s);
 		}
 		System.out.println();

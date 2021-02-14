@@ -49,7 +49,7 @@ public class Main extends Application {
 		e.setDay(days);
 		e.setDuration(60*60);
 		sb.addEvent(e);
-		((MainScreen) ms).update(dd);
+		((MainScreen) ms).update();
 	}
 	
 	public void buildTimers() {

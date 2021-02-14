@@ -81,8 +81,6 @@ public class MainScreen extends Scene {
 
 
 		this.sb = sb;
-
-
 	}
 	
 	private void addToClasses(Event e,StackPane sp) {

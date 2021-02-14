@@ -25,7 +25,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
+			//asdasd
 			s = primaryStage;
 			sb = new Schedule();
 			scene = new MainScreen(sb);

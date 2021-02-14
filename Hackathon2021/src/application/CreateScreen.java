@@ -8,11 +8,18 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 //let me sleep
@@ -29,6 +36,7 @@ public class CreateScreen extends Scene {
 		super(new AnchorPane(), 800, 600);
 		pane = (AnchorPane) getRoot();
 		pane.getChildren().add(entries());
+		pane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 245, 220), CornerRadii.EMPTY, Insets.EMPTY)));
 		this.s = s;
 	}
 
@@ -36,7 +44,7 @@ public class CreateScreen extends Scene {
 
 		GridPane gp = new GridPane();
 		gp.setLayoutX(30);
-		gp.setLayoutY(150);
+		gp.setLayoutY(100);
 
 		// setting gap and padding
 		gp.setAlignment(Pos.CENTER);
@@ -47,9 +55,11 @@ public class CreateScreen extends Scene {
 		//Creates title, puts it in hbox and adds hbox to grid pane
 		HBox hbTitle = new HBox(10);
 		hbTitle.setAlignment(Pos.CENTER);
-		Text txtTitle = new Text("New Event");
+		Label lblTitle = new Label("New Event");
+		lblTitle.setFont(Font.font("Sans", FontWeight.BOLD, 40));
+		lblTitle.setTextFill(Color.GRAY);
 		hbTitle.setAlignment(Pos.CENTER);
-		hbTitle.getChildren().add(txtTitle);
+		hbTitle.getChildren().add(lblTitle);
 		gp.add(hbTitle, 0, 0, 2, 1);
 		
 		// Creates labels and adding them to the grid pane
@@ -108,12 +118,40 @@ public class CreateScreen extends Scene {
 		gp.add(tfs[5], 1, 5);
 		gp.add(tfs[6], 1, 6);
 
-		// Puts create button inside an hbox and adds the hbox to grid pane
+		// Creating create button
 		Button btnCreate = initCreateButton();
-		HBox hbBtnCreate = new HBox(10);
-		hbBtnCreate.setAlignment(Pos.BOTTOM_RIGHT);
-		hbBtnCreate.getChildren().add(btnCreate);
-		gp.add(hbBtnCreate, 0, 8, 2, 1);
+		btnCreate.setBackground(
+				new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		//Creating cancel button
+		Button btnCancel = new Button("Cancel");
+		btnCancel.setOnAction(e -> Main.changeScene(Main.MAIN));
+		btnCancel.setOnMouseEntered(e -> {
+			btnCancel.setBackground(new Background(new BackgroundFill(Color.rgb(249, 133, 133), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCancel.setOnMouseExited(e -> {
+			btnCancel.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCancel.setOnMousePressed(e -> {
+			btnCancel.setBackground(
+					new Background(new BackgroundFill(Color.rgb(133, 91, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCancel.setOnMouseReleased(e -> {
+			btnCancel.setBackground(
+					new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCancel.setBackground(
+				new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		//putting buttons in grid pane 
+		GridPane gpbtn = new GridPane();
+		gpbtn.setAlignment(Pos.BOTTOM_RIGHT);
+		gpbtn.setHgap(10);
+		gpbtn.add(btnCancel, 0, 0);
+		gpbtn.add(btnCreate, 1, 0);
+		
+		//putting grid pane into main grid pane
+		gp.add(gpbtn, 1, 8);
 
 		return gp;
 	}
@@ -233,6 +271,20 @@ public class CreateScreen extends Scene {
 			}
 
 		};
+		btnCreate.setOnMouseEntered(e -> {
+			btnCreate.setBackground(new Background(new BackgroundFill(Color.rgb(249, 133, 133), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCreate.setOnMouseExited(e -> {
+			btnCreate.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCreate.setOnMousePressed(e -> {
+			btnCreate.setBackground(
+					new Background(new BackgroundFill(Color.rgb(133, 91, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		btnCreate.setOnMouseReleased(e -> {
+			btnCreate.setBackground(
+					new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
 
 		btnCreate.setOnAction(event);
 		return btnCreate;

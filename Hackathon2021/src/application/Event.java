@@ -39,7 +39,7 @@ public class Event {
 	public Event(String name, String day[], int hr, int min, int duration, String url) {
 		setTime(hr,min);
 		setName(name);
-		setDay(day[]);
+		setDay(day);
 		setDuration(duration);
 		setUrl(url);
 	}

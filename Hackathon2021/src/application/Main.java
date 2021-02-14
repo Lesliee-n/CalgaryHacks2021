@@ -43,12 +43,9 @@ public class Main extends Application {
 	}
 	
 	public void testEvent() {
-		Event e = new Event();
-		 Date dd = new Date(); 
-         dd.setHours(8); 
-         dd.setMinutes(0); 
-		e.setName("MATH 267");
 		String days[] = {"MONDAY","WEDNESDAY","FRIDAY"};
+		Event e = new Event("abc",days,8,0,60*60,"asad");
+		e.setName("MATH 267");
 		e.setDay(days);
 		e.setDuration(60*60);
 		sb.addEvent(e);

@@ -4,9 +4,12 @@ import java.io.*;
 
 public class ScheduleBuilder {
 
-    public static void makeICS(){
+    public static String[] makeICS(){
         
         String s = null;
+        String[] output;
+
+        Event[] newE;
 
         try {
             
@@ -24,11 +27,21 @@ public class ScheduleBuilder {
             // System.out.println("Here is the standard output of the command:\n");
             while ((s = stdInput.readLine()) != null) {
                 // System.out.println(s);
-                String[] output = s.split("#");
-                
-                for(int i=0; i < output.length; i++){
-                    System.out.println(output[i]);
+                output = s.split("#");
+                String[] days = output[6].split(",");
+                try{
+                    int hour =Integer.parseInt(output[1]);
+                    int min = Integer.parseInt(output[2]);
+                    int dur = Integer.parseInt(output[3]);
+                    Event event = new Event(output[0], days, hour, min, dur, "https://ucalgary.zoom.us/j/");
+                    Main.sb.addEvent(event);
+                }catch(Exception e){
+                    System.out.println("error");
                 }
+                
+                // for(int i=0; i < output.length; i++){
+                //     System.out.println(output[i]);
+                // }
                 
             }
             
@@ -45,6 +58,7 @@ public class ScheduleBuilder {
             e.printStackTrace();
             System.exit(-1);
         }
+        return output;
     }
 
 }

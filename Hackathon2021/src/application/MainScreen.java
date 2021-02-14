@@ -18,7 +18,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -40,7 +43,9 @@ public class MainScreen extends Scene{
 		GridPane week = weekday();
 		pane.getChildren().add(week);
 		int dur = 60*60;
-		pane.getChildren().add(setSlot(week, "MATH 329", "FRIDAY", minTime+2*dur,2*dur));
+		setSlot(pane,week, "MATH 329", "FRIDAY", minTime+dur,dur);
+		setSlot(pane,week, "MATH 329", "MONDAY", minTime+dur,dur);
+		setSlot(pane,week, "MATH 329", "WEDNESDAY", minTime+2*dur,2*dur);
 		this.sb = sb;
 		
 	}
@@ -80,13 +85,16 @@ public class MainScreen extends Scene{
 		return btn;
 		
 	}
-	private VBox setSlot(GridPane gp, String eventName, String day, int start, int duration) {
-		VBox vb = new VBox();
+	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, int start, int duration) {
+		StackPane vb = new StackPane();
 		vb.setBackground(new Background(new BackgroundFill(Color.rgb(240, 0, 72), CornerRadii.EMPTY, Insets.EMPTY)));
+		VBox textBox = new VBox();
+		textBox.setSpacing(-10);
+		
 		Rectangle rec = new Rectangle();
-		rec.setFill(Color.rgb(240, 0, 72));
+		rec.setFill(Color.rgb(227, 41, 78));
 		int secToHour = 60*60;
-		int height = 20;
+		int height = 30+5;
 		int width = 80;
 		int hour = start/secToHour;
 		int min = start%secToHour;
@@ -95,23 +103,34 @@ public class MainScreen extends Scene{
 		System.out.println((start - minTime)/secToHour);
 		vb.setPrefSize(width, height*(duration)/secToHour);
 		rec.setLayoutY(height*(start - minTime)/secToHour);
-		rec.setWidth(width*5/6);
+		rec.setWidth(width*9/10);
 		rec.setHeight(height*(duration)/secToHour);
 		vb.setAlignment(Pos.BASELINE_CENTER);
-		vb.getChildren().add(createCloseButton());
 		vb.getChildren().add(rec);
+		Button closeBtn = createCloseButton();
+		closeBtn.setOnAction(e -> {pane.getChildren().remove(vb);});
+		textBox.getChildren().add(closeBtn);
+		vb.getChildren().add(textBox);
+		Text text = new Text(eventName);
+		text.setFill(Color.WHITE);
+		textBox.getChildren().add(text);
+		textBox.setAlignment(Pos.TOP_CENTER);
+		vb.setAlignment(textBox, Pos.TOP_CENTER);
+		parent.getChildren().add(vb);
+		
 		return  vb;
 		//test
 	}
 	
 	private Button createCloseButton() {
 		Button btn = new Button("X");
-		btn.setTextFill(Color.WHITE);
+		btn.setTextFill(Color.DARKRED);
+		btn.setFont(Font.font("Sans", FontWeight.BOLD,10));
 		btn.setBackground(new Background(new BackgroundFill(Color.rgb(0,0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
-		btn.setOnMouseEntered(e -> {btn.setTextFill(Color.GRAY);});
-		btn.setOnMouseExited(e ->  {btn.setTextFill(Color.WHITE);});
+		btn.setOnMouseEntered(e -> {btn.setTextFill(Color.rgb(171, 27, 56));});
+		btn.setOnMouseExited(e ->  {btn.setTextFill(Color.DARKRED);});
 		btn.setOnMousePressed(e -> {btn.setTextFill(Color.RED);});
-		btn.setOnMouseReleased(e -> {btn.setTextFill(Color.WHITE);});
+		btn.setOnMouseReleased(e -> {btn.setTextFill(Color.DARKRED);});
 		
 		return btn;
 	}
@@ -124,9 +143,10 @@ public class MainScreen extends Scene{
 		String days[] = {"SUN","MON","TUE","WED","THU","FRI","SAT"};
 		GridPane gp = new GridPane();
 		gp.setLayoutX(175);
-		gp.setLayoutY(100);
+		gp.setLayoutY(50);
+		gp.setVgap(4);
 		for (int i = 1; i < rows-1; i++) {
-			Rectangle rec = new Rectangle(0,0,40,20);			
+			Rectangle rec = new Rectangle(0,0,40,30);			
 			if(i%2 == 0) rec.setFill(Color.GRAY);
 			else  rec.setFill(Color.DARKGRAY);
 			Label l = new Label(7+i+"");
@@ -147,7 +167,7 @@ public class MainScreen extends Scene{
 			gp.add(l, i,0);
 			gp.setHalignment(l, HPos.CENTER);
 			for (int j = 1; j < rows-1; j++) {
-				Rectangle timeSlot = new Rectangle(0,0,80,20);			
+				Rectangle timeSlot = new Rectangle(0,0,80,30);			
 				if((i)%2 == 0) timeSlot.setFill(Color.BEIGE);
 				else  timeSlot.setFill(Color.WHEAT);
 				gp.add(timeSlot, i,j);

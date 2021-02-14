@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	public static final String MAIN = "MAIN";
 	public static final String ADD_EVENT = "ADD_EVENT";
+	private static Scene ms;
+	private static Scene cs;
 	private static Scene scene;
 	private static Stage s;
 	private static ScheduleBuilder sb;
@@ -17,6 +19,8 @@ public class Main extends Application {
 		try {
 			s = primaryStage;
 			scene = new MainScreen(sb);
+			ms = new MainScreen(sb);
+			cs = new CreateScreen(sb);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -29,16 +33,17 @@ public class Main extends Application {
 	public static void changeScene(String ID) {
 		switch(ID) {
 		case MAIN:
-				scene = new MainScreen(sb);
+				scene = ms;
 				break;
 		case ADD_EVENT:
-				scene = new CreateScreen(sb);
+				scene = cs;
 				break;
 		}
 		s.setScene(scene);
 	}
 	
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 }

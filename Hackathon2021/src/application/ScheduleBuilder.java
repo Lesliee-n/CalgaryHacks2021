@@ -4,7 +4,7 @@ import java.io.*;
 
 public class ScheduleBuilder {
 
-    public static String[] makeICS(){
+    public static void makeICS(){
         
         String s = null;
         String[] output;
@@ -58,7 +58,7 @@ public class ScheduleBuilder {
             e.printStackTrace();
             System.exit(-1);
         }
-        return output;
+
     }
 
 }

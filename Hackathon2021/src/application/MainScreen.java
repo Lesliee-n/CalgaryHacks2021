@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -88,18 +89,21 @@ public class MainScreen extends Scene {
 
 	private void setSlots(Event e) {
 		StackPane p = new StackPane();
+		int r = (int) (Math.random()*150);
+		int g = (int) (Math.random()*150);
+		int b = (int) (Math.random()*150);
 		for (String day : e.getDay()) {
 			day = day.toUpperCase();
 			Date d = e.getTime();
 			int st = d.getHours() * 60 * 60 + d.getMinutes() * 60;
-			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(), e);
+			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(), e, Color.rgb(r,g,b) );
 			addToClasses(e,s);
 		}
 
 	}
 
 	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration,
-			Event eb) {
+			Event eb, Paint c) {
 		start = (int) ((start));
 
 		StackPane vb = new StackPane();
@@ -108,7 +112,7 @@ public class MainScreen extends Scene {
 		textBox.setSpacing(-10);
 
 		Rectangle rec = new Rectangle();
-		rec.setFill(Color.rgb(227, 41, 78));
+		rec.setFill(c);
 		int secToHour = 60 * 60;
 		int height = 30 + 5;
 		int width = 80;

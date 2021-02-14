@@ -15,7 +15,7 @@ public class ScheduleBuilder {
             
 	    // run the Unix "ps -ef" command
             // using the Runtime exec method:
-            Process p = Runtime.getRuntime().exec("py script.py");
+            Process p = Runtime.getRuntime().exec("py src//script.py");
             
             BufferedReader stdInput = new BufferedReader(new 
                  InputStreamReader(p.getInputStream()));
@@ -32,12 +32,15 @@ public class ScheduleBuilder {
                 try{
                     int hour =Integer.parseInt(output[1]);
                     int min = Integer.parseInt(output[2]);
-                    int dur = Integer.parseInt(output[3]);
+                    int dur = (int) Float.parseFloat(output[3]);
                     Event event = new Event(output[0], days, hour, min, dur, "https://ucalgary.zoom.us/j/");
                     Main.sb.addEvent(event);
                 }catch(Exception e){
-                    System.out.println("error");
+                    System.out.println(e);
                 }
+                
+                
+                
                 
                 // for(int i=0; i < output.length; i++){
                 //     System.out.println(output[i]);
@@ -45,13 +48,14 @@ public class ScheduleBuilder {
                 
             }
             
+            
             // read any errors from the attempted command
             // System.out.println("Here is the standard error of the command (if any):\n");
             while ((s = stdError.readLine()) != null) {
                 System.out.println(s);
             }
             
-            System.exit(0);
+        
         }
         catch (IOException e) {
             System.out.println("exception happened - here's what I know: ");

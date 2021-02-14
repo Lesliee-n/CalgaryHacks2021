@@ -220,6 +220,8 @@ public class MainScreen extends Scene {
 		
 		icsBtn.setOnAction(e -> {
 			selectFile();
+			ScheduleBuilder.makeICS();
+			update();
 		});
 		
 		vb.getChildren().add(icsBtn);
@@ -256,20 +258,20 @@ public class MainScreen extends Scene {
 
 	private Button createCloseButton() {
 		Button btn = new Button("X");
-		btn.setTextFill(Color.DARKRED);
+		btn.setTextFill(Color.rgb(230,230,230));
 		btn.setFont(Font.font("Sans", FontWeight.BOLD, 10));
 		btn.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0), CornerRadii.EMPTY, Insets.EMPTY)));
 		btn.setOnMouseEntered(e -> {
-			btn.setTextFill(Color.rgb(171, 27, 56));
+			btn.setTextFill(Color.rgb(200,200,200));
 		});
 		btn.setOnMouseExited(e -> {
-			btn.setTextFill(Color.DARKRED);
+			btn.setTextFill(Color.rgb(230,230,230));
 		});
 		btn.setOnMousePressed(e -> {
-			btn.setTextFill(Color.RED);
+			btn.setTextFill(Color.rgb(190,190,190));
 		});
 		btn.setOnMouseReleased(e -> {
-			btn.setTextFill(Color.DARKRED);
+			btn.setTextFill(Color.rgb(230,230,230));
 		});
 
 		return btn;

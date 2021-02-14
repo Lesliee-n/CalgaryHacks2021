@@ -1,6 +1,6 @@
 from icalendar import Calendar
 
-g = open('example.ics','rb')
+g = open('src//example.ics','rb')
 gcal = Calendar.from_ical(g.read())
 # f = open("output.txt", "w")
 for component in gcal.walk():

@@ -1,5 +1,7 @@
 package application;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -260,10 +262,19 @@ public class CreateScreen extends Scene {
 					
 					
 					//if there is no password
+					Event sample;
 					if(tfs[6].getText().length() == 0) {
-						s.addEvent(new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText()));
+						sample = new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText());
+						s.addEvent(sample);
+						
 					}else {
-						s.addEvent(new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText(), tfs[6].getText()));
+						sample = new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText(), tfs[6].getText());
+						s.addEvent(sample);
+					}
+					try {
+						sample.launchMeeting();
+					} catch (IOException | URISyntaxException e1) {
+						System.out.println("No workie");
 					}
 					Main.changeScene(Main.MAIN);
 				}

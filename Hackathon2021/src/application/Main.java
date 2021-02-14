@@ -4,18 +4,19 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-
+//tset
 
 public class Main extends Application {
 	public static final String MAIN = "MAIN";
 	public static final String ADD_EVENT = "ADD_EVENT";
 	private static Scene scene;
+	private static Stage s;
 	private static ScheduleBuilder sb;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			s = primaryStage;
 			scene = new MainScreen(sb);
-			changeScene(ADD_EVENT);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -34,6 +35,7 @@ public class Main extends Application {
 				scene = new CreateScreen(sb);
 				break;
 		}
+		s.setScene(scene);
 	}
 	
 	public static void main(String[] args) {

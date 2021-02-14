@@ -2,7 +2,7 @@ package application;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -13,7 +13,9 @@ import java.awt.datatransfer.Clipboard;
 
 //Event object
 public class Event {
-	private Calendar time;
+	
+
+	private Date time;
 	private String day[];
 	private String name;
 	private int duration;
@@ -21,11 +23,35 @@ public class Event {
 	private String password;
 	private boolean eventActive = true;
 
+	
+	//constructor with password
+	public Event(String name, String day[], int hr, int min, int duration, String url, String password) {
+		setTime(hr,min);
+		setName(name);
+		setDay(day[]);
+		setDuration(duration);
+		setUrl(url);
+		setPassword(password);
+	}
+	
+
+	//constructor without password
+	public Event(String name, String day[], int hr, int min, int duration, String url) {
+		setTime(hr,min);
+		setName(name);
+		setDay(day[]);
+		setDuration(duration);
+		setUrl(url);
+	}
+	
+	
+	
+	
 //set variables in object
 	public void setTime(int hr, int min) {
-		this.time = Calendar.getInstance();
-		time.set(Calendar.HOUR_OF_DAY, hr);
-		time.set(Calendar.MINUTE, min);
+		this.time = new Date();
+		time.setHours(hr);
+		time.setMinutes(min);
 
 	}
 
@@ -55,7 +81,7 @@ public class Event {
 	}
 
 //get variables in object
-	public Calendar getTime() {
+	public Date getTime() {
 		return time;
 
 	}

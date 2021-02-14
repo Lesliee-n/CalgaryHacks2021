@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,9 @@ public class Main extends Application {
 			scene = new MainScreen(sb);
 			ms = new MainScreen(sb);
 			cs = new CreateScreen(sb);
+			
+			testEvent();
+			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -38,15 +42,27 @@ public class Main extends Application {
 		}
 	}
 	
+	public void testEvent() {
+		Event e = new Event();
+		 Date dd = new Date(); 
+         dd.setHours(8); 
+         dd.setMinutes(0); 
+		e.setName("MATH 267");
+		String days[] = {"MONDAY","WEDNESDAY","FRIDAY"};
+		e.setDay(days);
+		e.setDuration(60*60);
+		sb.addEvent(e);
+		((MainScreen) ms).update(dd);
+	}
+	
 	public void buildTimers() {
-		/*
-		for(Event e : getCourses()){
+		for(Event e : sb.getEvents()){
 			setTimer(e);
 		}
-		*/
+		
 	}
 	public void setTimer(Event e) {
-		Calendar active = e.getTime();
+		Date active = e.getTime();
 		Timer timer = new Timer(true); 
 		timer.schedule(new TimerTask() {
 			
@@ -67,7 +83,7 @@ public class Main extends Application {
 	public static void changeScene(String ID) {
 		switch(ID) {
 		case MAIN:
-				((MainScreen) ms).update();
+				//((MainScreen) ms).update();
 				scene = ms;
 				break;
 		case ADD_EVENT:

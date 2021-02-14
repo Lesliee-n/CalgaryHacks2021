@@ -21,6 +21,7 @@ public class CreateScreen extends Scene {
 	private Schedule s;
 	private TextField tfs[] = new TextField[7];
 	List<CheckBox> weekdays = new ArrayList<CheckBox>();
+	String daysArray[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
 	public CreateScreen(Schedule s) {
 		super(new AnchorPane(), 800, 600);
@@ -30,7 +31,6 @@ public class CreateScreen extends Scene {
 	}
 
 	public GridPane entries() {
-		String days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
 		GridPane gp = new GridPane();
 		gp.setLayoutX(30);
@@ -55,9 +55,9 @@ public class CreateScreen extends Scene {
 		gp.add(txtName, 0, 1);
 		Text txtDates = new Text("Date(s):");
 		gp.add(txtDates, 0, 2);
-		Text txtTime = new Text("Time (Military Time):");
+		Text txtTime = new Text("Time (24-hour clock):");
 		gp.add(txtTime, 0, 3);
-		Text txtDuration = new Text("Duration (Military Time):");
+		Text txtDuration = new Text("Duration:");
 		gp.add(txtDuration, 0, 4);
 		Text txtURL = new Text("Meeting URL:");
 		gp.add(txtURL, 0, 5);
@@ -76,8 +76,8 @@ public class CreateScreen extends Scene {
 		GridPane gpcb = new GridPane();
 		gpcb.setAlignment(Pos.CENTER);
 		gpcb.setHgap(10);
-		for (int i = 0; i < days.length; i++) {
-			CheckBox cb = new CheckBox(days[i]);
+		for (int i = 0; i < daysArray.length; i++) {
+			CheckBox cb = new CheckBox(daysArray[i]);
 			gpcb.add(cb, i, 0);
 			weekdays.add(cb);
 		}
@@ -123,16 +123,42 @@ public class CreateScreen extends Scene {
 
 			@Override
 			public void handle(ActionEvent e) {
+				boolean correct = true; 
+				int count = 0;
+				
 				//Error handling name
-				if(isNumeric(tfs[0].getText()) || tfs[0].getText().length() < 1)  {
+				if(tfs[0].getText().length() < 1)  {
 					tfs[0].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[0].setStyle("-fx-control-inner-background: #ffffff");
 				}
 				
+				//Error handling days
+				boolean empty = true;
+				for(int i = 0; i < weekdays.size(); i++) {
+					if(weekdays.get(i).isSelected() == true) {
+						empty = false;
+						count++;
+					}
+				}
+				
+				if(empty == true) {
+					for(int i = 0; i < weekdays.size(); i++) {
+						weekdays.get(i).setStyle("-fx-inner-border: #f98585");
+					}
+					correct = false;
+				}else {
+					for(int i = 0; i < weekdays.size(); i++) {
+						weekdays.get(i).setStyle("-fx-inner-border: #ffffff");
+					}
+				}
+				
+				
 				//Error handling meeting URL
 				if(isNumeric(tfs[5].getText()) || tfs[5].getText().length() < 1)  {
 					tfs[5].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[5].setStyle("-fx-control-inner-background: #ffffff");
 				}
@@ -140,6 +166,7 @@ public class CreateScreen extends Scene {
 				//Error handling time hours
 				if(!isNumeric(tfs[1].getText()) || tfs[1].getText().length() < 1 || Integer.parseInt(tfs[1].getText()) < 0 || Integer.parseInt(tfs[1].getText()) > 23) {
 					tfs[1].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[1].setStyle("-fx-control-inner-background: #ffffff");
 				}
@@ -147,6 +174,7 @@ public class CreateScreen extends Scene {
 				//Error handling time minutes
 				if(!isNumeric(tfs[2].getText()) || tfs[2].getText().length() < 1 || Integer.parseInt(tfs[2].getText()) < 0 || Integer.parseInt(tfs[2].getText()) > 59) {
 					tfs[2].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[2].setStyle("-fx-control-inner-background: #ffffff");
 				}
@@ -154,6 +182,7 @@ public class CreateScreen extends Scene {
 				//Error handling duration hours
 				if(!isNumeric(tfs[3].getText()) || tfs[3].getText().length() < 1 || Integer.parseInt(tfs[3].getText()) < 0 || Integer.parseInt(tfs[3].getText()) > 23) {
 					tfs[3].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[3].setStyle("-fx-control-inner-background: #ffffff");
 				}
@@ -161,15 +190,40 @@ public class CreateScreen extends Scene {
 				//Error handling duration minutes
 				if(!isNumeric(tfs[4].getText()) || tfs[4].getText().length() < 1 || Integer.parseInt(tfs[4].getText()) < 0 || Integer.parseInt(tfs[4].getText()) > 59) {
 					tfs[4].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
 					tfs[4].setStyle("-fx-control-inner-background: #ffffff");
 				}
 				
 				//Error handling meetingURL
-				if(isNumeric(tfs[0].getText()) || tfs[0].getText().length() < 1)  {
-					tfs[0].setStyle("-fx-control-inner-background: #f98585");
+				if(isNumeric(tfs[5].getText()) || tfs[5].getText().length() < 1)  {
+					tfs[5].setStyle("-fx-control-inner-background: #f98585");
+					correct = false;
 				} else {
-					tfs[0].setStyle("-fx-control-inner-background: #ffffff");
+					tfs[5].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				
+				if (correct == true) {
+					//make day array
+					String days[] = new String[count];
+					for(int i = 0; i < weekdays.size(); i++) {
+						if(weekdays.get(i).isSelected() == true) {
+							days[i] = daysArray[i];
+						}
+					}
+					
+					//converting duration to seconds
+					int duration = (Integer.parseInt(tfs[3].getText()) * 3600) + (Integer.parseInt(tfs[4].getText()) * 60);
+					
+					
+					//if there is no password
+					if(tfs[6].getText().length() == 0) {
+						s.addEvent(new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText()));
+					}else {
+						s.addEvent(new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText(), tfs[6].getText()));
+					}
+					Main.changeScene(Main.MAIN);
 				}
 				
 			}

@@ -101,7 +101,7 @@ public class MainScreen extends Scene{
 		vb.getChildren().add(createCloseButton());
 		vb.getChildren().add(rec);
 		return  vb;
-		
+		//test
 	}
 	
 	private Button createCloseButton() {

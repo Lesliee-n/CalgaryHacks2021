@@ -190,11 +190,13 @@ public class MainScreen extends Scene {
 	}
 	
 	private void checKEventTimes(Date d) {
+		String days[] = { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
 		for( Event e : Main.sb.getEvents()) {
+			String wd[] = e.getDay();
 			int hour = d.getHours();
 			int min = d.getMinutes();
 			Date d2 = e.getTime();
-			if(!isLaunching && (d2.getHours() == hour && d2.getMinutes() == min )) {
+			if(!isLaunching && (checkDay(days[d.getDay()], wd) && (d2.getHours() == hour && d2.getMinutes() == min ))) {
 				isLaunching = true;
 				launchedEvent = e; 
 				try {
@@ -208,6 +210,13 @@ public class MainScreen extends Scene {
 				isLaunching = false;
 			}
 		}
+	}
+	private boolean checkDay(String day, String[] days) {
+		
+		for(String str : days) {
+			if(str.equalsIgnoreCase(day)) return true;
+		}
+		return false;
 	}
 	private void initWeekday(HashMap<String, Integer> hm) {
 		hm.put("SUNDAY", 0);

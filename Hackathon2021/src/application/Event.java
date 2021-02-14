@@ -17,7 +17,7 @@ public class Event {
 	private int duration;
 	private String url;
 	private String password;
-	private boolean eventActive;
+	private boolean eventActive = true;
 	
 	
 }
@@ -58,10 +58,6 @@ public void setPassword(String newPassword) {
 	
 }
 
-public void eventActive(boolean newEventActive) {
-	this.eventActive = newEventActive;
-	
-}
 
 
 
@@ -98,7 +94,7 @@ public String getPassword() {
 	
 }
 
-public boolean eventActive() {
+public boolean getEventActive() {
 	return eventActive;
 	
 }

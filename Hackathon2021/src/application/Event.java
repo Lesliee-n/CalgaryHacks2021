@@ -1,4 +1,5 @@
 package application;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.awt.Desktop;
@@ -18,103 +19,92 @@ public class Event {
 	private String url;
 	private String password;
 	private boolean eventActive = true;
-	
-	
-}
-
-
 
 //set variables in object
-public void setTime(int newTime) {
-	this.time = newTime;
-	
-}
+	public void setTime(int newTime) {
+		this.time = newTime;
 
-public void setDay(String newDay[]) {
-	
-	for(int i : newDay) {
-		day[i]=newDay[i];
 	}
-	
-}
 
-public void setName(String newName) {
-	this.name = newName;
-	
-}
+	public void setDay(String newDay[]) {
 
-public void setDuration(String newDuration) {
-	this.duration = newDuration;
-	
-}
+		for (int i : newDay) {
+			day[i] = newDay[i];
+		}
 
-public void setUrl(String newUrl) {
-	this.url = newUrl;
-	
-}
+	}
 
-public void setPassword(String newPassword) {
-	this.password = newPassword;
-	
-}
+	public void setName(String newName) {
+		this.name = newName;
 
+	}
 
+	public void setDuration(String newDuration) {
+		this.duration = newDuration;
 
+	}
 
+	public void setUrl(String newUrl) {
+		this.url = newUrl;
 
+	}
+
+	public void setPassword(String newPassword) {
+		this.password = newPassword;
+
+	}
 
 //get variables in object
-public int getTime() {
-	return time;
-	
-}
+	public int getTime() {
+		return time;
 
-public String[] getDay() {
-	return day;
-	
-}
+	}
 
-public String getName() {
-	return name;
-	
-}
+	public String[] getDay() {
+		return day;
 
-public String getDuration() {
-	return duration;
-	
-}
+	}
 
-public String getUrl() {
-	return url;
-	
-}
+	public String getName() {
+		return name;
 
-public String getPassword() {
-	return password;
-	
-}
+	}
 
-public boolean getEventActive() {
-	return eventActive;
-	
-}
+	public String getDuration() {
+		return duration;
 
+	}
 
+	public String getUrl() {
+		return url;
 
+	}
+
+	public String getPassword() {
+		return password;
+
+	}
+
+	public boolean getEventActive() {
+		return eventActive;
+
+	}
 
 //functions
-public void launchMeeting() throws IOException, URISyntaxException {
-    StringSelection stringSelection = new StringSelection(getPassword());
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents(stringSelection, null);  
-    
-	Desktop d=Desktop.getDesktop();
-	d.browse(new URI(getUrl()));
+	public void launchMeeting() throws IOException, URISyntaxException {
+		//put password to meeting to clipboard
+		StringSelection stringSelection = new StringSelection(getPassword());
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(stringSelection, null);
+
+		//open zoom link in browser
+		Desktop d = Desktop.getDesktop();
+		d.browse(new URI(getUrl()));
+	}
+
+	public void toggleEventActive() {
+		this.eventActive = false;
+		system.out.print("toggle event active");
+	}
+
 }
-
-public void toggleEventActive() {
-	this.eventActive = false;
-	system.out.print("toggle event active");
-}
-
-

@@ -27,10 +27,7 @@ public class Event {
 	}
 
 	public void setDay(String newDay[]) {
-
-		for (int i : newDay) {
-			day[i] = newDay[i];
-		}
+		this.day = newDay; 
 
 	}
 
@@ -39,7 +36,7 @@ public class Event {
 
 	}
 
-	public void setDuration(String newDuration) {
+	public void setDuration(int newDuration) {
 		this.duration = newDuration;
 
 	}
@@ -70,7 +67,7 @@ public class Event {
 
 	}
 
-	public String getDuration() {
+	public int getDuration() {
 		return duration;
 
 	}

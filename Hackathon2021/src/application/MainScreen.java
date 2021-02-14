@@ -37,6 +37,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 
 //test
@@ -69,8 +70,7 @@ public class MainScreen extends Scene {
 		ivRocket.setFitWidth(70);
 		ivRocket.setLayoutX(40);
 		ivRocket.setLayoutY(470);
-		pane.getChildren().add(ivRocket);
-		
+		pane.getChildren().add(ivRocket);	
 		week = weekday();
 		pane.getChildren().add(week);
 
@@ -146,6 +146,8 @@ public class MainScreen extends Scene {
 		Text text = new Text(eventName);
 		text.setFont(Font.font("Sans", FontWeight.BOLD, 10));
 		text.setFill(Color.WHITE);
+		text.setWrappingWidth(78);
+		text.setTextAlignment(TextAlignment.CENTER);
 		textBox.getChildren().add(text);
 		textBox.setAlignment(Pos.TOP_CENTER);
 		vb.setAlignment(textBox, Pos.TOP_CENTER);

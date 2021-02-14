@@ -42,6 +42,9 @@ public class CreateScreen extends Scene {
 		pane.getChildren().add(entries());
 		pane.setBackground(new Background(new BackgroundFill(Color.rgb(1, 175, 209), CornerRadii.EMPTY, Insets.EMPTY)));
 		this.s = s;
+		
+		//Icon made by https://www.freepik.com"
+		//https://www.flaticon.com/free-icon/shuttle_2285537?term=rocket&page=1&position=9&page=1&position=9&related_id=2285537&origin=tag
 		Image imgRocket = new Image(getClass().getResourceAsStream("rocket.png"));
 		ImageView ivRocket = new ImageView(imgRocket);
 		ivRocket.setFitHeight(70);

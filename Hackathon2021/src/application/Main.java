@@ -17,21 +17,21 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	public static final String MAIN = "MAIN";
 	public static final String ADD_EVENT = "ADD_EVENT";
-	private static Scene ms;
-	private static Scene cs;
+	private static MainScreen ms;
+	private static CreateScreen cs;
 	private static Scene scene;
 	private static Stage s;
-	private static Schedule sb;
+	public static Schedule sb;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			//asdasd
 			s = primaryStage;
 			sb = new Schedule();
+			//testEvent();
+			cs = new CreateScreen(sb);		
 			scene = new MainScreen(sb);
 			ms = new MainScreen(sb);
-			cs = new CreateScreen(sb);		
-			testEvent();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -41,14 +41,14 @@ public class Main extends Application {
 		}
 	}
 	
-	public void testEvent() {
+	public static void testEvent() {
 		String days[] = {"MONDAY","WEDNESDAY","FRIDAY"};
 		Event e = new Event("abc",days,8,0,60*60,"asad");
 		e.setName("MATH 267");
 		e.setDay(days);
 		e.setDuration(60*60);
 		sb.addEvent(e);
-		((MainScreen) ms).update();
+
 	}
 	
 	public void buildTimers() {
@@ -79,7 +79,7 @@ public class Main extends Application {
 	public static void changeScene(String ID) {
 		switch(ID) {
 		case MAIN:
-				//((MainScreen) ms).update();
+				ms.update();
 				scene = ms;
 				break;
 		case ADD_EVENT:

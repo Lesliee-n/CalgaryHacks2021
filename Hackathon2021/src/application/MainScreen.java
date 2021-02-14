@@ -56,24 +56,91 @@ public class MainScreen extends Scene {
 		pane.setLeft(navBar());
 		week = weekday();
 		pane.getChildren().add(week);
-		int dur = 60 * 60;
-		
-//		  setSlot(pane, week, "MATH 329", "FRIDAY", minTime + dur, dur); 
+
+//		int dur = 60 * 60;
+//		String days[] = {"MONDAY","WEDNESDAY","FRIDAY"};
+//		Event e = new Event("abc",days,8,0,60*60,"asad");
+//		e.setName("MATH 267");
+//		e.setDay(days);
+//		e.setDuration(60*60);
+//		
+//		for (String day : e.getDay()) {
+//			day = day.toUpperCase();
+//			Date d = e.getTime();
+//			int st = d.getHours()*60*60 + d.getMinutes()*60;
+//			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration());
+//		}
 //		  setSlot(pane, week, "MATH 329", "MONDAY", minTime + dur, dur); 
 //		  setSlot(pane, week, "MATH 329", "WEDNESDAY", minTime + 2 * dur, 2 * dur);
-		 
 		this.sb = sb;
-
+		update();
+		
+		
 	}
 
 	public void update() {
+		System.out.println("meee");
 		pane.getChildren().remove(slotsFill);
-		for (Event e : sb.getEvents()) {
-			slotsFill = setSlots(pane, week, e);
+		for (Event e : Main.sb.getEvents()) {
+			System.out.println(e.getName());
+			setSlots(e);
 		}
 		pane.getChildren().add(slotsFill);
 
 	}
+	
+	private void setSlots(Event e) {
+		StackPane p = new StackPane();
+		for (String day : e.getDay()) {
+			day = day.toUpperCase();
+			Date d = e.getTime();
+			int st = d.getHours()*60*60 + d.getMinutes()*60;
+			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(),e);
+		}
+
+	}
+
+	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration,Event eb) {
+		start = (int) ((start));
+		
+		StackPane vb = new StackPane();
+		vb.setBackground(new Background(new BackgroundFill(Color.rgb(240, 0, 72), CornerRadii.EMPTY, Insets.EMPTY)));
+		VBox textBox = new VBox();
+		textBox.setSpacing(-10);
+
+		Rectangle rec = new Rectangle();
+		rec.setFill(Color.rgb(227, 41, 78));
+		int secToHour = 60 * 60;
+		int height = 30 + 5;
+		int width = 80;
+		vb.setLayoutX(gp.getLayoutX() + 80 + width * (weekdayList.get(day)));
+		vb.setLayoutY(gp.getLayoutY() + 30 + height * (start - minTime) / secToHour);
+		vb.setPrefSize(width, height * (duration) / secToHour);
+		rec.setLayoutY(height * (start - minTime) / secToHour);
+		rec.setWidth(width * 9 / 10);
+		rec.setHeight(height * (duration) / secToHour);
+		vb.setAlignment(Pos.BASELINE_CENTER);
+		vb.getChildren().add(rec);
+		Button closeBtn = createCloseButton();
+		closeBtn.setOnAction(e -> {
+			pane.getChildren().remove(vb);
+			Main.sb.deleteEvent(eb);
+			System.out.println(Main.sb.getEvents().length);
+		});
+		textBox.getChildren().add(closeBtn);
+		vb.getChildren().add(textBox);
+		Text text = new Text(eventName);
+		text.setFont(Font.font("Sans", FontWeight.BOLD, 10));
+		text.setFill(Color.WHITE);
+		textBox.getChildren().add(text);
+		textBox.setAlignment(Pos.TOP_CENTER);
+		vb.setAlignment(textBox, Pos.TOP_CENTER);
+		parent.getChildren().add(vb);
+
+		return vb;
+		// test
+	}
+	
 
 	private Text initClock() {
 		HBox vb = new HBox();
@@ -141,59 +208,7 @@ public class MainScreen extends Scene {
 
 	}
 
-	private StackPane setSlots(Pane parent, GridPane gp, Event e) {
-		StackPane p = new StackPane();
-		for (String day : e.getDay()) {
-			day = day.toUpperCase();
-			Date d = e.getTime();
-			int st = d.getHours()*60*60 + d.getMinutes()*60;
-			StackPane s = setSlot(parent, gp, e.getName(), day, st, (long) e.getDuration());
-			p.getChildren().add(s);
-		}
-		System.out.println();
-		return p;
-
-	}
-
-	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration) {
-		start = (int) ((start));
-		System.out.println(start);
-
-		StackPane vb = new StackPane();
-		vb.setBackground(new Background(new BackgroundFill(Color.rgb(240, 0, 72), CornerRadii.EMPTY, Insets.EMPTY)));
-		VBox textBox = new VBox();
-		textBox.setSpacing(-10);
-
-		Rectangle rec = new Rectangle();
-		rec.setFill(Color.rgb(227, 41, 78));
-		int secToHour = 60 * 60;
-		int height = 30 + 5;
-		int width = 80;
-		vb.setLayoutX(gp.getLayoutX() + 80 + width * (weekdayList.get(day)));
-		vb.setLayoutY(gp.getLayoutY() + 30 + height * (start - minTime) / secToHour);
-		vb.setPrefSize(width, height * (duration) / secToHour);
-		rec.setLayoutY(height * (start - minTime) / secToHour);
-		rec.setWidth(width * 9 / 10);
-		rec.setHeight(height * (duration) / secToHour);
-		vb.setAlignment(Pos.BASELINE_CENTER);
-		vb.getChildren().add(rec);
-		Button closeBtn = createCloseButton();
-		closeBtn.setOnAction(e -> {
-			pane.getChildren().remove(vb);
-		});
-		textBox.getChildren().add(closeBtn);
-		vb.getChildren().add(textBox);
-		Text text = new Text(eventName);
-		text.setFont(Font.font("Sans", FontWeight.BOLD, 10));
-		text.setFill(Color.WHITE);
-		textBox.getChildren().add(text);
-		textBox.setAlignment(Pos.TOP_CENTER);
-		vb.setAlignment(textBox, Pos.TOP_CENTER);
-		parent.getChildren().add(vb);
-
-		return vb;
-		// test
-	}
+	
 
 	private Button createCloseButton() {
 		Button btn = new Button("X");

@@ -208,10 +208,12 @@ public class CreateScreen extends Scene {
 				
 				if (correct == true) {
 					//make day array
-					String days[] = new String[count];
+					int j = 0;
+					String days[] = new String[count]; 
 					for(int i = 0; i < weekdays.size(); i++) {
 						if(weekdays.get(i).isSelected() == true) {
-							days[i] = daysArray[i];
+							days[j] = daysArray[i];
+							j++;
 						}
 					}
 					

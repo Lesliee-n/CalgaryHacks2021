@@ -27,7 +27,7 @@ public class MainScreen extends Scene{
 		this.sb = sb;
 		
 	}
-	
+	//fix
 	private GridPane weekday() {
 		int rows = 21;
 		String days[] = {"SUN","MON","TUE","WED","THU","FRI","SAT"};

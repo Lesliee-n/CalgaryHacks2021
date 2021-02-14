@@ -188,7 +188,7 @@ public class MainScreen extends Scene {
 		}, 0, 1000);
 		return timeL;
 	}
-	
+	//test
 	private void checKEventTimes(Date d) {
 		String days[] = { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
 		for( Event e : Main.sb.getEvents()) {

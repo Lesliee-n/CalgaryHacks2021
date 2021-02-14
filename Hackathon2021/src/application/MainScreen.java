@@ -79,7 +79,6 @@ public class MainScreen extends Scene {
 		week = weekday();
 		pane.getChildren().add(week);
 
-
 		this.sb = sb;
 	}
 	

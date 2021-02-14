@@ -1,8 +1,10 @@
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +39,7 @@ import javafx.stage.FileChooser;
 //test
 public class MainScreen extends Scene {
 	private HashMap<String, Integer> weekdayList;
+	private HashMap<String, ArrayList<StackPane>> classes;
 	private BorderPane pane;
 	GridPane week;
 	private int minTime = 8 * 60 * 60;
@@ -46,6 +49,7 @@ public class MainScreen extends Scene {
 	public MainScreen(Schedule sb) {
 		super(new BorderPane(), 800, 600);
 		slotsFill = new StackPane();
+		classes = new HashMap<String, ArrayList<StackPane>> ();
 		weekdayList = new HashMap<String, Integer>();
 		initWeekday(weekdayList);
 		pane = (BorderPane) getRoot();
@@ -59,28 +63,20 @@ public class MainScreen extends Scene {
 		week = weekday();
 		pane.getChildren().add(week);
 
-//		int dur = 60 * 60;
-//		String days[] = {"MONDAY","WEDNESDAY","FRIDAY"};
-//		Event e = new Event("abc",days,8,0,60*60,"asad");
-//		e.setName("MATH 267");
-//		e.setDay(days);
-//		e.setDuration(60*60);
-//		
-//		for (String day : e.getDay()) {
-//			day = day.toUpperCase();
-//			Date d = e.getTime();
-//			int st = d.getHours()*60*60 + d.getMinutes()*60;
-//			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration());
-//		}
-//		  setSlot(pane, week, "MATH 329", "MONDAY", minTime + dur, dur); 
-//		  setSlot(pane, week, "MATH 329", "WEDNESDAY", minTime + 2 * dur, 2 * dur);
-		this.sb = sb;
-		update();
 
+		this.sb = sb;
+
+
+	}
+	
+	private void addToClasses(Event e,StackPane sp) {
+		if(classes.containsKey(e.getName()) == false) {
+			classes.put(e.getName(),new ArrayList<StackPane>());
+		}
+		classes.get(e.getName()).add(sp);
 	}
 
 	public void update() {
-		System.out.println("meee");
 		pane.getChildren().remove(slotsFill);
 		for (Event e : Main.sb.getEvents()) {
 			System.out.println(e.getName());
@@ -97,6 +93,7 @@ public class MainScreen extends Scene {
 			Date d = e.getTime();
 			int st = d.getHours() * 60 * 60 + d.getMinutes() * 60;
 			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(), e);
+			addToClasses(e,s);
 		}
 
 	}
@@ -125,9 +122,10 @@ public class MainScreen extends Scene {
 		vb.getChildren().add(rec);
 		Button closeBtn = createCloseButton();
 		closeBtn.setOnAction(e -> {
-			pane.getChildren().remove(vb);
+			for(StackPane sp : classes.get(eb.getName())) {
+				pane.getChildren().remove(sp);				
+			}
 			Main.sb.deleteEvent(eb);
-			System.out.println(Main.sb.getEvents().length);
 		});
 		textBox.getChildren().add(closeBtn);
 		vb.getChildren().add(textBox);

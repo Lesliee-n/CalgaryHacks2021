@@ -2,6 +2,7 @@ package application;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +13,7 @@ import java.awt.datatransfer.Clipboard;
 
 //Event object
 public class Event {
-	private int time;
+	private Calendar time;
 	private String day[];
 	private String name;
 	private int duration;
@@ -21,8 +22,10 @@ public class Event {
 	private boolean eventActive = true;
 
 //set variables in object
-	public void setTime(int newTime) {
-		this.time = newTime;
+	public void setTime(int hr, int min) {
+		this.time = new GregorianCalendar();
+		time.set(Calendar.HOUR_OF_DAY, hr);
+		time.set(Calendar.MINUTE, min);
 
 	}
 
@@ -52,7 +55,7 @@ public class Event {
 	}
 
 //get variables in object
-	public int getTime() {
+	public Calendar getTime() {
 		return time;
 
 	}

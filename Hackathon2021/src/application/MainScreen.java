@@ -42,7 +42,7 @@ public class MainScreen extends Scene{
 			Rectangle rec = new Rectangle(0,0,80,30);			
 			if(i%2 == 0) rec.setFill(Color.GRAY);
 			else  rec.setFill(Color.DARKGRAY);
-			Label l = new Label(days[i]);
+			Label l = new Label(days[i-1]);
 			l.setFont(Font.font("Sans", FontWeight.BOLD,20));
 			l.setTextFill(Color.WHITE);
 			gp.add(rec, i,0);

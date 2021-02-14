@@ -19,6 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -58,9 +60,17 @@ public class MainScreen extends Scene {
 		HBox hb = new HBox();
 		hb.getChildren().add(initClock());
 		pane.setBottom(hb);
-		hb.setBackground(new Background(new BackgroundFill(Color.rgb(51, 51, 51), CornerRadii.EMPTY, Insets.EMPTY)));
+		hb.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
 		pane.setLeft(navBar());
+		Image imgRocket = new Image(getClass().getResourceAsStream("rocket.png"));
+		ImageView ivRocket = new ImageView(imgRocket);
+		ivRocket.setFitHeight(70);
+		ivRocket.setFitWidth(70);
+		ivRocket.setLayoutX(40);
+		ivRocket.setLayoutY(470);
+		pane.getChildren().add(ivRocket);
+		
 		week = weekday();
 		pane.getChildren().add(week);
 
@@ -176,7 +186,7 @@ public class MainScreen extends Scene {
 	private VBox navBar() {
 		VBox vb = new VBox();
 		vb.setSpacing(10);
-		vb.setBackground(new Background(new BackgroundFill(Color.rgb(61, 61, 61), CornerRadii.EMPTY, Insets.EMPTY)));
+		vb.setBackground(new Background(new BackgroundFill(Color.rgb(1, 175, 209), CornerRadii.EMPTY, Insets.EMPTY)));
 		vb.setPrefWidth(150);
 		int pad = 20;
 		Button toCreateSceneBtn = createButton("ADD EVENT");
@@ -184,7 +194,7 @@ public class MainScreen extends Scene {
 		vb.setAlignment(Pos.BASELINE_CENTER);
 		toCreateSceneBtn.setOnAction(e -> Main.changeScene(Main.ADD_EVENT));
 		toCreateSceneBtn.setOnMouseEntered(e -> {
-			toCreateSceneBtn.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+			toCreateSceneBtn.setBackground(new Background(new BackgroundFill(Color.rgb(249, 133, 133), CornerRadii.EMPTY, Insets.EMPTY)));
 		});
 		toCreateSceneBtn.setOnMouseExited(e -> {
 			toCreateSceneBtn.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -204,7 +214,7 @@ public class MainScreen extends Scene {
 		vb.setAlignment(Pos.BASELINE_CENTER);
 		icsBtn.setOnAction(e -> Main.changeScene(Main.ADD_EVENT));
 		icsBtn.setOnMouseEntered(e -> {
-			icsBtn.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+			icsBtn.setBackground(new Background(new BackgroundFill(Color.rgb(249, 133, 133), CornerRadii.EMPTY, Insets.EMPTY)));
 		});
 		icsBtn.setOnMouseExited(e -> {
 			icsBtn.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));

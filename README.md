@@ -3,5 +3,5 @@ Group 87- Jeffery Yang, Thanh Hien Nguyen-Mai, Gurvir Dehal, Alexander  Chao, an
 
 
 TO RUN:
--Download repo
--run Main.java inside CalgaryHacks2021>Hackathon2021>src>application in eclipse
+<br/>-Download repo
+<br/>-run Main.java inside CalgaryHacks2021>Hackathon2021>src>application in eclipse

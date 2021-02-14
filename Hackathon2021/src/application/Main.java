@@ -1,5 +1,12 @@
 package application;
 	
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -13,11 +20,13 @@ public class Main extends Application {
 	private static Scene cs;
 	private static Scene scene;
 	private static Stage s;
-	private static ScheduleBuilder sb;
+	private static Schedule sb;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			
 			s = primaryStage;
+			sb = new Schedule();
 			scene = new MainScreen(sb);
 			ms = new MainScreen(sb);
 			cs = new CreateScreen(sb);
@@ -29,10 +38,36 @@ public class Main extends Application {
 		}
 	}
 	
+	public void buildTimers() {
+		/*
+		for(Event e : getCourses()){
+			setTimer(e);
+		}
+		*/
+	}
+	public void setTimer(Event e) {
+		Calendar active = e.getTime();
+		Timer timer = new Timer(true); 
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				try {
+					e.launchMeeting();
+				} catch (IOException | URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}, active.getTime(), 7*1000*60*60*24);
+	}
+	
+	
 	//change scen
 	public static void changeScene(String ID) {
 		switch(ID) {
 		case MAIN:
+				((MainScreen) ms).update();
 				scene = ms;
 				break;
 		case ADD_EVENT:

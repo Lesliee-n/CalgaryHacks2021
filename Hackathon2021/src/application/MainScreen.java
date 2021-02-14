@@ -3,6 +3,9 @@ package application;
 
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import org.w3c.dom.css.Rect;
 
@@ -20,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -33,12 +37,18 @@ public class MainScreen extends Scene{
 	private HashMap<String, Integer>weekdayList;
 	private BorderPane pane;
 	private int minTime = 8*60*60;
-	private ScheduleBuilder sb;
-	public MainScreen(ScheduleBuilder sb) {
+	private Schedule sb;
+	public MainScreen(Schedule sb) {
 		super(new BorderPane(),800,600);
 		weekdayList = new HashMap<String, Integer>();
 		initWeekday(weekdayList);
 		pane = (BorderPane) getRoot();
+		
+		HBox hb = new HBox();
+		hb.getChildren().add(initClock());
+		pane.setBottom(hb);
+		hb.setBackground(new Background(new BackgroundFill(Color.rgb(51, 51, 51), CornerRadii.EMPTY, Insets.EMPTY)));
+		
 		pane.setLeft(navBar());
 		GridPane week = weekday();
 		pane.getChildren().add(week);
@@ -49,6 +59,31 @@ public class MainScreen extends Scene{
 		this.sb = sb;
 		
 	}
+	
+
+	public void update() {
+		
+	}
+	
+	private Text initClock() {
+		HBox vb = new HBox();
+		Text timeL = new Text("TIME");
+		timeL.setFont(Font.font("Sans", FontWeight.BOLD,10));
+		timeL.setFill(Color.WHITE);
+		vb.getChildren().add(timeL);
+		Timer timer = new Timer(true);
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+			java.util.Date date=new java.util.Date();  
+				String t = date.toString();
+				timeL.setText(t);
+				System.out.println(t);
+			}
+		}, 0,1000);
+		return timeL;
+	}
+	
 	private void initWeekday( HashMap<String, Integer>hm) {
 		hm.put("SUNDAY", 0);
 		hm.put("MONDAY", 1);
@@ -59,9 +94,10 @@ public class MainScreen extends Scene{
 		hm.put("SATURDAY", 6);
 	}
 	
+	
 	private VBox navBar() {
 		VBox vb = new VBox();	
-		vb.setBackground(new Background(new BackgroundFill(Color.rgb(250, 250, 250), CornerRadii.EMPTY, Insets.EMPTY)));
+		vb.setBackground(new Background(new BackgroundFill(Color.rgb(61, 61, 61), CornerRadii.EMPTY, Insets.EMPTY)));
 		Button toCreateSceneBtn = createButton("ADD EVENT");
 		vb.setPrefWidth(150);
 		int pad = 20;
@@ -100,7 +136,6 @@ public class MainScreen extends Scene{
 		int min = start%secToHour;
 		vb.setLayoutX(gp.getLayoutX()+80+width*(weekdayList.get(day)));
 		vb.setLayoutY(gp.getLayoutY()+30 + height*(start - minTime)/secToHour);
-		System.out.println((start - minTime)/secToHour);
 		vb.setPrefSize(width, height*(duration)/secToHour);
 		rec.setLayoutY(height*(start - minTime)/secToHour);
 		rec.setWidth(width*9/10);

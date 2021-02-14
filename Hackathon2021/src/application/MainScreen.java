@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
@@ -31,6 +32,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
 //test
 public class MainScreen extends Scene {
@@ -74,8 +76,7 @@ public class MainScreen extends Scene {
 //		  setSlot(pane, week, "MATH 329", "WEDNESDAY", minTime + 2 * dur, 2 * dur);
 		this.sb = sb;
 		update();
-		
-		
+
 	}
 
 	public void update() {
@@ -88,21 +89,22 @@ public class MainScreen extends Scene {
 		pane.getChildren().add(slotsFill);
 
 	}
-	
+
 	private void setSlots(Event e) {
 		StackPane p = new StackPane();
 		for (String day : e.getDay()) {
 			day = day.toUpperCase();
 			Date d = e.getTime();
-			int st = d.getHours()*60*60 + d.getMinutes()*60;
-			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(),e);
+			int st = d.getHours() * 60 * 60 + d.getMinutes() * 60;
+			StackPane s = setSlot(pane, week, e.getName(), day, st, (long) e.getDuration(), e);
 		}
 
 	}
 
-	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration,Event eb) {
+	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration,
+			Event eb) {
 		start = (int) ((start));
-		
+
 		StackPane vb = new StackPane();
 		vb.setBackground(new Background(new BackgroundFill(Color.rgb(240, 0, 72), CornerRadii.EMPTY, Insets.EMPTY)));
 		VBox textBox = new VBox();
@@ -140,7 +142,6 @@ public class MainScreen extends Scene {
 		return vb;
 		// test
 	}
-	
 
 	private Text initClock() {
 		HBox vb = new HBox();
@@ -172,18 +173,19 @@ public class MainScreen extends Scene {
 
 	private VBox navBar() {
 		VBox vb = new VBox();
+		vb.setSpacing(10);
 		vb.setBackground(new Background(new BackgroundFill(Color.rgb(61, 61, 61), CornerRadii.EMPTY, Insets.EMPTY)));
-		Button toCreateSceneBtn = createButton("ADD EVENT");
 		vb.setPrefWidth(150);
 		int pad = 20;
+		Button toCreateSceneBtn = createButton("ADD EVENT");
 		vb.setPadding(new Insets(pad, 0, 0, 0));
 		vb.setAlignment(Pos.BASELINE_CENTER);
 		toCreateSceneBtn.setOnAction(e -> Main.changeScene(Main.ADD_EVENT));
 		toCreateSceneBtn.setOnMouseEntered(e -> {
-			vb.setPadding(new Insets(pad, 0, 0, -20));
+			toCreateSceneBtn.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 		});
 		toCreateSceneBtn.setOnMouseExited(e -> {
-			vb.setPadding(new Insets(pad, 0, 0, 0));
+			toCreateSceneBtn.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
 		});
 		toCreateSceneBtn.setOnMousePressed(e -> {
 			toCreateSceneBtn.setBackground(
@@ -195,8 +197,50 @@ public class MainScreen extends Scene {
 		});
 		vb.getChildren().add(toCreateSceneBtn);
 
+		Button icsBtn = createButton("OPEN ICS");
+		vb.setPadding(new Insets(pad, 0, 0, 0));
+		vb.setAlignment(Pos.BASELINE_CENTER);
+		icsBtn.setOnAction(e -> Main.changeScene(Main.ADD_EVENT));
+		icsBtn.setOnMouseEntered(e -> {
+			icsBtn.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		icsBtn.setOnMouseExited(e -> {
+			icsBtn.setBackground(new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		icsBtn.setOnMousePressed(e -> {
+			icsBtn.setBackground(
+					new Background(new BackgroundFill(Color.rgb(133, 91, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		icsBtn.setOnMouseReleased(e -> {
+			icsBtn.setBackground(
+					new Background(new BackgroundFill(Color.rgb(255, 174, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+		});
+		
+		icsBtn.setOnAction(e -> {
+			selectFile();
+		});
+		
+		vb.getChildren().add(icsBtn);
+
 		return vb;
 	}
+	
+	 private File selectFile() {
+	        FileChooser fc = new FileChooser();
+	        fc.getExtensionFilters().addAll(
+	                new FileChooser.ExtensionFilter("ICS FILE", "*.ics")
+	        );
+	        //HERE IS THING 
+	        File f = fc.showOpenDialog(Main.s);
+	        
+	        
+	        if (f != null) {
+	            return f;
+	        } else {
+	            System.out.println("file not selected");
+	            return null;
+	        }
+	    }
 
 	private Button createButton(String label) {
 		Button btn = new Button(label);
@@ -207,8 +251,6 @@ public class MainScreen extends Scene {
 		return btn;
 
 	}
-
-	
 
 	private Button createCloseButton() {
 		Button btn = new Button("X");

@@ -20,7 +20,7 @@ public class Main extends Application {
 	private static MainScreen ms;
 	private static CreateScreen cs;
 	private static Scene scene;
-	private static Stage s;
+	public static Stage s;
 	public static Schedule sb;
 	@Override
 	public void start(Stage primaryStage) {

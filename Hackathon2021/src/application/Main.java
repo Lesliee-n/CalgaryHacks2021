@@ -30,13 +30,12 @@ public class Main extends Application {
 			sb = new Schedule();
 			scene = new MainScreen(sb);
 			ms = new MainScreen(sb);
-			cs = new CreateScreen(sb);
-			
+			cs = new CreateScreen(sb);		
 			testEvent();
-			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

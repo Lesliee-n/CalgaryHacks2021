@@ -57,11 +57,11 @@ public class MainScreen extends Scene {
 		week = weekday();
 		pane.getChildren().add(week);
 		int dur = 60 * 60;
-		/*
-		 * setSlot(pane, week, "MATH 329", "FRIDAY", minTime + dur, dur); setSlot(pane,
-		 * week, "MATH 329", "MONDAY", minTime + dur, dur); setSlot(pane, week,
-		 * "MATH 329", "WEDNESDAY", minTime + 2 * dur, 2 * dur);
-		 */
+		
+//		  setSlot(pane, week, "MATH 329", "FRIDAY", minTime + dur, dur); 
+//		  setSlot(pane, week, "MATH 329", "MONDAY", minTime + dur, dur); 
+//		  setSlot(pane, week, "MATH 329", "WEDNESDAY", minTime + 2 * dur, 2 * dur);
+		 
 		this.sb = sb;
 
 	}
@@ -145,7 +145,9 @@ public class MainScreen extends Scene {
 		StackPane p = new StackPane();
 		for (String day : e.getDay()) {
 			day = day.toUpperCase();
-			StackPane s = setSlot(parent, gp, e.getName(), day,0, (long) e.getDuration());
+			Date d = e.getTime();
+			int st = d.getHours()*60*60 + d.getMinutes()*60;
+			StackPane s = setSlot(parent, gp, e.getName(), day, st, (long) e.getDuration());
 			p.getChildren().add(s);
 		}
 		System.out.println();
@@ -154,7 +156,7 @@ public class MainScreen extends Scene {
 	}
 
 	private StackPane setSlot(Pane parent, GridPane gp, String eventName, String day, long start, long duration) {
-		start = (int)((start));
+		start = (int) ((start));
 		System.out.println(start);
 
 		StackPane vb = new StackPane();

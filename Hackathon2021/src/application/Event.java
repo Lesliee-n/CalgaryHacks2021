@@ -103,6 +103,7 @@ public class Event {
 	}
 
 	public void toggleEventActive() {
+		//cancel notification of event
 		this.eventActive = false;
 		system.out.print("toggle event active");
 	}

@@ -7,16 +7,29 @@ import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
+	public static final String MAIN = "MAIN";
+	public static final String ADD_EVENT = "ADD_EVENT";
+	private static Scene scene;
+	private static ScheduleBuilder sb;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new MainScreen();
+			scene = new MainScreen(sb);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void changeScene(String ID) {
+		switch(ID) {
+		case MAIN:
+				scene = new MainScreen(sb);
+				break;
+		case ADD_EVENT:
+				break;
 		}
 	}
 	

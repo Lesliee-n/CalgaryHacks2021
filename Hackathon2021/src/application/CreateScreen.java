@@ -289,11 +289,7 @@ public class CreateScreen extends Scene {
 						sample = new Event(tfs[0].getText(), days, Integer.parseInt(tfs[1].getText()), Integer.parseInt(tfs[2].getText()), duration, tfs[5].getText(), tfs[6].getText());
 						s.addEvent(sample);
 					}
-					try {
-						sample.launchMeeting();
-					} catch (IOException | URISyntaxException e1) {
-						System.out.println("No workie");
-					}
+					
 					Main.changeScene(Main.MAIN);
 				}
 				

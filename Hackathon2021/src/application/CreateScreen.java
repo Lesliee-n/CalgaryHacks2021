@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,31 +11,29 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class CreateScreen extends Scene {
 
 	private AnchorPane pane;
-	private ScheduleBuilder sb;
+	private Schedule s;
+	private TextField tfs[] = new TextField[7];
+	List<CheckBox> weekdays = new ArrayList<CheckBox>();
 
-	public CreateScreen(ScheduleBuilder sb) {
+	public CreateScreen(Schedule s) {
 		super(new AnchorPane(), 800, 600);
 		pane = (AnchorPane) getRoot();
 		pane.getChildren().add(entries());
-		this.sb = sb;
+		this.s = s;
 	}
 
 	public GridPane entries() {
 		String days[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-		List<CheckBox> weekdays = new ArrayList<CheckBox>();
 
 		GridPane gp = new GridPane();
-		gp.setLayoutX(100);
+		gp.setLayoutX(30);
 		gp.setLayoutY(150);
 
 		// setting gap and padding
@@ -58,22 +55,22 @@ public class CreateScreen extends Scene {
 		gp.add(txtName, 0, 1);
 		Text txtDates = new Text("Date(s):");
 		gp.add(txtDates, 0, 2);
-		Text txtTime = new Text("Time:");
+		Text txtTime = new Text("Time (Military Time):");
 		gp.add(txtTime, 0, 3);
-		Text txtDuration = new Text("Duration:");
+		Text txtDuration = new Text("Duration (Military Time):");
 		gp.add(txtDuration, 0, 4);
 		Text txtURL = new Text("Meeting URL:");
 		gp.add(txtURL, 0, 5);
-		Text txtPassword = new Text("Password:");
+		Text txtPassword = new Text("Meeting Password (Optional):");
 		gp.add(txtPassword, 0, 6);
 
-		// Creates text fields and adding them to the grid pane
-		TextField tfName = new TextField();
-		gp.add(tfName, 1, 1);
-		TextField tfURL = new TextField();
-		gp.add(tfURL, 1, 5);
-		TextField tfPassword = new TextField();
-		gp.add(tfPassword, 1, 6);
+		// Creates text fields
+		for (int i = 0; i < 7; i++) {
+			TextField tf = new TextField();
+			tfs[i] = tf;
+		}
+		
+		gp.add(tfs[0], 1, 1);
 
 		// Creates checkboxes for days
 		GridPane gpcb = new GridPane();
@@ -90,25 +87,24 @@ public class CreateScreen extends Scene {
 		GridPane gpTime = new GridPane();
 		gpTime.setAlignment(Pos.CENTER);
 		gpTime.setHgap(10);
-		TextField tfTimeH = new TextField();
-		gpTime.add(tfTimeH, 0, 0);
+		gpTime.add(tfs[1], 0, 0);
 		Text txtColon = new Text(":");
 		gpTime.add(txtColon, 1, 0);
-		TextField tfTimeM = new TextField();
-		gpTime.add(tfTimeM, 2, 0);
+		gpTime.add(tfs[2], 2, 0);
 		gp.add(gpTime, 1, 3);
 
 		// Creates text fields for time entry
 		GridPane gpDuration = new GridPane();
 		gpDuration.setAlignment(Pos.CENTER);
 		gpDuration.setHgap(10);
-		TextField tfDurationH = new TextField();
-		gpDuration.add(tfDurationH, 0, 0);
+		gpDuration.add(tfs[3], 0, 0);
 		Text txtColon2 = new Text(":");
 		gpDuration.add(txtColon2, 1, 0);
-		TextField tfDurationM = new TextField();
-		gpDuration.add(tfDurationM, 2, 0);
+		gpDuration.add(tfs[4], 2, 0);
 		gp.add(gpDuration, 1, 4);
+		
+		gp.add(tfs[5], 1, 5);
+		gp.add(tfs[6], 1, 6);
 
 		// Puts create button inside an hbox and adds the hbox to grid pane
 		Button btnCreate = initCreateButton();
@@ -127,8 +123,55 @@ public class CreateScreen extends Scene {
 
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				//Error handling name
+				if(isNumeric(tfs[0].getText()) || tfs[0].getText().length() < 1)  {
+					tfs[0].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[0].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling meeting URL
+				if(isNumeric(tfs[5].getText()) || tfs[5].getText().length() < 1)  {
+					tfs[5].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[5].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling time hours
+				if(!isNumeric(tfs[1].getText()) || tfs[1].getText().length() < 1 || Integer.parseInt(tfs[1].getText()) < 0 || Integer.parseInt(tfs[1].getText()) > 23) {
+					tfs[1].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[1].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling time minutes
+				if(!isNumeric(tfs[2].getText()) || tfs[2].getText().length() < 1 || Integer.parseInt(tfs[2].getText()) < 0 || Integer.parseInt(tfs[2].getText()) > 59) {
+					tfs[2].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[2].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling duration hours
+				if(!isNumeric(tfs[3].getText()) || tfs[3].getText().length() < 1 || Integer.parseInt(tfs[3].getText()) < 0 || Integer.parseInt(tfs[3].getText()) > 23) {
+					tfs[3].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[3].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling duration minutes
+				if(!isNumeric(tfs[4].getText()) || tfs[4].getText().length() < 1 || Integer.parseInt(tfs[4].getText()) < 0 || Integer.parseInt(tfs[4].getText()) > 59) {
+					tfs[4].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[4].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
+				//Error handling meetingURL
+				if(isNumeric(tfs[0].getText()) || tfs[0].getText().length() < 1)  {
+					tfs[0].setStyle("-fx-control-inner-background: #f98585");
+				} else {
+					tfs[0].setStyle("-fx-control-inner-background: #ffffff");
+				}
+				
 			}
 
 		};
@@ -137,4 +180,14 @@ public class CreateScreen extends Scene {
 		return btnCreate;
 	}
 
+	public boolean isNumeric(String text) {
+		boolean numeric = true;
+		try {
+            Double num = Double.parseDouble(text);
+        } catch (NumberFormatException e) {
+            numeric = false;
+        }
+		
+		return numeric;
+	}
 }

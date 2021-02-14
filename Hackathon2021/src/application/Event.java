@@ -23,7 +23,7 @@ public class Event {
 
 //set variables in object
 	public void setTime(int hr, int min) {
-		this.time = new GregorianCalendar();
+		this.time = Calendar.getInstance();
 		time.set(Calendar.HOUR_OF_DAY, hr);
 		time.set(Calendar.MINUTE, min);
 
